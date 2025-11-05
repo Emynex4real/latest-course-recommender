@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Data files (optional - keep only essential ones)
+data/nigerian_admissions_dataset_2022_2025_final.csv
+data/clean_admissions_data.csv
+data/saved_sessions.json
+data/student_interactions.csv
+
+# Notebooks (not needed for deployment)
+notebooks/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
