@@ -253,13 +253,19 @@ def display_results():
     with col1:
         if st.button("📄 Generate PDF Report", type="primary"):
             with st.spinner("Generating PDF..."):
-                pdf = enhanced_features.generate_pdf_report(student_data, result, recommendations)
-                pdf_bytes = pdf.output(dest='S').encode('latin1')
-                b64_pdf = base64.b64encode(pdf_bytes).decode()
-                
-                href = f'<a href="data:application/pdf;base64,{b64_pdf}" download="admission_report.pdf">📥 Download PDF Report</a>'
-                st.markdown(href, unsafe_allow_html=True)
-                st.success("✅ PDF generated!")
+                try:
+                    pdf = enhanced_features.generate_pdf_report(student_data, result, recommendations)
+                    pdf_bytes = pdf.output(dest='S')
+                    if isinstance(pdf_bytes, str):
+                        pdf_bytes = pdf_bytes.encode('latin1')
+                    b64_pdf = base64.b64encode(pdf_bytes).decode()
+                    
+                    href = f'<a href="data:application/pdf;base64,{b64_pdf}" download="admission_report.pdf">📥 Download PDF Report</a>'
+                    st.markdown(href, unsafe_allow_html=True)
+                    st.success("✅ PDF generated!")
+                except Exception as e:
+                    st.error(f"PDF generation failed. Showing text report instead.")
+                    st.text_area("Report Content", f"Student: {student_data['name']}\nCourse: {student_data['preferred_course']}\nStatus: {result['admission_status']}\nMessage: {result['message']}", height=200)
     
     with col2:
         if st.button("📚 Generate Study Plan", type="primary"):
